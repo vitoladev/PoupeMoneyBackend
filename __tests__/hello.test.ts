@@ -7,6 +7,6 @@ describe('Hello world', () => {
     }
     `;
     const result = await executeGraphQL(query);
-    expect(result?.data?.hello).toBe('world');
+    expect(result?.data?.hello).toBe('Hello World!');
   });
 });

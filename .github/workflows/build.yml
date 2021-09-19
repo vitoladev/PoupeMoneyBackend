@@ -1,0 +1,25 @@
+name: Build and test
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.17'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: build with typescript
+        run: yarn build
+      - name: run tests with jest
+        run: yarn test
+      - name: eslint
+        run: yarn lint

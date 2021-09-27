@@ -1,8 +1,8 @@
 import { inputObjectType, mutationField, nonNull } from 'nexus';
 import bcrypt from 'bcryptjs';
-import { generateToken } from '../../../core/auth';
-import { AuthenticationToken } from './login.mutation';
+import { generateToken } from '../../../core/auth/auth.service';
 import errors, { throwGraphQLError } from '../../../core/errors';
+import { AuthenticationToken } from '../../../core/auth/auth.type';
 
 const CreateUserInput = inputObjectType({
   name: 'CreateUserInput',

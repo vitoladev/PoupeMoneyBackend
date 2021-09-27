@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import UserEntity from '../modules/user/user.entity';
+import UserEntity from '../../modules/user/user.entity';
 import { getRepository } from 'typeorm';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';

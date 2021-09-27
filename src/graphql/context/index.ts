@@ -1,5 +1,5 @@
 import { FastifyRequest } from 'fastify';
-import { getUserFromAuthToken } from '../../core/auth';
+import { getUserFromAuthToken } from '../../core/auth/auth.service';
 import { databaseRepositories } from './database';
 
 const buildContext = async (req: FastifyRequest) => {

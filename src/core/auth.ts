@@ -22,6 +22,10 @@ const verifyToken = (authToken: string): Promise<string> => {
 };
 
 export const getUserFromAuthToken = async (token: string) => {
-  const userID = await verifyToken(token);
-  return await getRepository(UserEntity).findOne(userID);
+  try {
+    const userID = await verifyToken(token);
+    return await getRepository(UserEntity).findOne(userID);
+  } catch (e) {
+    return null;
+  }
 };

@@ -1,16 +1,16 @@
 import { FastifyRequest } from 'fastify';
+import { getUserFromAuthToken } from '../../core/auth';
+import { databaseRepositories } from './database';
 
 const buildContext = async (req: FastifyRequest) => {
+  const token = req.headers.authorization || '';
+  const user = await getUserFromAuthToken(token);
+
+  const db = databaseRepositories();
   return {
-    authorization: req.headers.authorization,
+    db,
+    user,
   };
 };
-
-type PromiseType<T> = T extends PromiseLike<infer U> ? U : T;
-
-declare module 'mercurius' {
-  interface MercuriusContext
-    extends PromiseType<ReturnType<typeof buildContext>> {}
-}
 
 export default buildContext;

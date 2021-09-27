@@ -1,13 +1,17 @@
 import { makeSchema } from 'nexus';
 import Query from './query';
-import UserType from '../modules/user/user.type';
-import CreateUserMutation from '../modules/user/mutations/create-user.mutation';
+import CustomScalars from './scalars';
+import Mutation from './mutation';
 
 const schema = makeSchema({
-  types: [Query, UserType, CreateUserMutation],
+  types: [Query, Mutation, CustomScalars],
   outputs: {
     schema: __dirname + '/generated/schema.graphql',
     typegen: __dirname + '/generated/typings.ts',
+  },
+  contextType: {
+    module: __dirname + '/context/types.ts',
+    export: 'GraphQLContext',
   },
 });
 

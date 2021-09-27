@@ -1,37 +1,40 @@
-import { mutationField, nonNull, stringArg } from 'nexus';
-import UserEntity from '../user.entity';
-import { getRepository } from 'typeorm';
+import { inputObjectType, mutationField, nonNull } from 'nexus';
 import bcrypt from 'bcryptjs';
-import UserType from '../user.type';
-import mercurius from 'mercurius';
-import ErrorWithProps = mercurius.ErrorWithProps;
-import errors from '../errors';
+import { generateToken } from '../../../core/auth';
+import { AuthenticationToken } from './login.mutation';
+import errors, { throwGraphQLError } from '../../../core/errors';
 
-const CreateUserMutation = mutationField('createUser', {
-  type: UserType,
-  args: {
-    name: nonNull(stringArg()),
-    email: nonNull(stringArg()),
-    password: nonNull(stringArg()),
+const CreateUserInput = inputObjectType({
+  name: 'CreateUserInput',
+  definition(t) {
+    t.nonNull.string('name');
+    t.nonNull.email('email');
+    t.nonNull.string('password');
   },
-  async resolve(_source, { name, email, password }) {
-    const userRepository = getRepository(UserEntity);
-    const emailExists = await userRepository.findOne({ email });
+});
+
+const CreateUserMutation = mutationField('CreateUser', {
+  type: AuthenticationToken,
+  args: { input: nonNull(CreateUserInput) },
+  async resolve(_source, { input: { email, name, password } }, ctx) {
+    const emailExists = await ctx.db.user.findOne({ email });
     if (emailExists) {
-      throw new ErrorWithProps('Email already exists', {
-        code: errors.EMAIL_ALREADY_EXISTS,
-        timestamp: Math.round(new Date().getTime() / 1000),
-      });
+      return throwGraphQLError(
+        'Email already exists',
+        errors.EMAIL_ALREADY_EXISTS,
+      );
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    const user = userRepository.create({
+    const user = ctx.db.user.create({
       name,
       email,
       passwordHash,
     });
 
-    return await userRepository.save(user);
+    await ctx.db.user.create(user);
+
+    return { token: generateToken(user.id) };
   },
 });
 

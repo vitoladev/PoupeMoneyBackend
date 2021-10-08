@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import UserEntity from '@modules/user/user.entity';
 import { getRepository } from 'typeorm';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secret';
+const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRE = process.env.JWT_EXPIRE;
 
 export const generateToken = (userID: string): string =>

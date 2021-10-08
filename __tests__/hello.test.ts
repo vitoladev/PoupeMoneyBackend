@@ -1,4 +1,4 @@
-import { executeGraphQL } from './index';
+import { executeGraphQL } from './helpers';
 
 describe('Hello world', () => {
   test('hello query should return world', async () => {

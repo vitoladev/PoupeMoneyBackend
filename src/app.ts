@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import fastify from 'fastify';
 import AltairFastify from 'altair-fastify-plugin';
 import mercurius from 'mercurius';

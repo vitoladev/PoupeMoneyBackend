@@ -1,7 +1,5 @@
-import UserMutations from '../modules/user/mutations';
+import UserMutations from '@modules/user/mutations';
 
-const Mutation = {
-  UserMutations,
-};
+const Mutation = [UserMutations];
 
 export default Mutation;

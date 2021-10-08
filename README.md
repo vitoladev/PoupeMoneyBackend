@@ -1,3 +1,3 @@
-# typescript-graphql-server-boilerplate
+# PoupeMoney/backend
 
-Just a simple server boilerplate with typescript, fastify, graphql, jest and github actions CI.
+Aplicação de controle de finanças com suporte a ações, fundos imobiliários e criptomoedas utilizando typescript e graphql

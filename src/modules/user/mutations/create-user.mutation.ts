@@ -1,7 +1,7 @@
 import { inputObjectType, mutationField, nonNull } from 'nexus';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '@core/auth/auth.service';
-import errors, { throwGraphQLError } from '@core/errors';
+import ERRORS, { throwGraphQLError } from '@core/errors';
 import { AuthenticationToken } from '@core/auth/auth.type';
 
 const CreateUserInput = inputObjectType({
@@ -19,10 +19,7 @@ const CreateUserMutation = mutationField('CreateUser', {
   async resolve(_source, { input: { email, name, password } }, ctx) {
     const emailExists = await ctx.db.user.findOne({ email });
     if (emailExists) {
-      return throwGraphQLError(
-        'Email already exists',
-        errors.EMAIL_ALREADY_EXISTS,
-      );
+      return throwGraphQLError(ERRORS.EMAIL_ALREADY_EXISTS);
     }
 
     const passwordHash = await bcrypt.hash(password, 12);

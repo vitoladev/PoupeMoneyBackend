@@ -1,5 +1,5 @@
 import { getConnection } from 'typeorm';
-import UserEntity from '../../modules/user/user.entity';
+import UserEntity from '@modules/user/user.entity';
 
 export const databaseRepositories = () => {
   const connection = getConnection();

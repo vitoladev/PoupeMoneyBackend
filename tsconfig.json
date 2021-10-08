@@ -15,11 +15,23 @@
     "strict": true /* Enable all strict type-checking options. */,
     "noImplicitAny": true /* Enable error reporting for expressions and declarations with an implied `any` type.. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "baseUrl": ".",
+    "paths": {
+      "@modules/*": ["src/modules/*"],
+      "@core/*": ["src/core/*"],
+      "@graphql/*": ["src/graphql/*"]
+    },
     /* Experimental Options */
     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
     "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
     "strictPropertyInitialization": false /* Enable strict checking of property initialization in classes. */
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/**/__tests__/**/*", "test/**/*"]
+  "ts-node": {
+    "transpileOnly": true,
+    "require": [
+      "typescript-transform-paths/register",
+      "tsconfig-paths/register"
+    ]
+  },
+  "exclude": ["src/**/__tests__", "__tests__"]
 }

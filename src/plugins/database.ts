@@ -1,6 +1,6 @@
 import fp from 'fastify-plugin';
 import { createConnection, getConnectionOptions } from 'typeorm';
-import UserEntity from '../modules/user/user.entity';
+import UserEntity from '@modules/user/user.entity';
 
 const databasePlugin = fp(async (server) => {
   try {

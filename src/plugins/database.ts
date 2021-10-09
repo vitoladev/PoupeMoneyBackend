@@ -4,10 +4,13 @@ import UserEntity from '@modules/user/user.entity';
 
 const databasePlugin = fp(async (server) => {
   try {
+    if (process.env.NODE_ENV === 'test') return;
+
     const connectionOptions = await getConnectionOptions();
     Object.assign(connectionOptions, {
       options: { encrypt: true },
       entities: [UserEntity],
+      logging: ['error'],
     });
 
     await createConnection(connectionOptions);

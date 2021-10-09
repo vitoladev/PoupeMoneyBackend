@@ -4,7 +4,7 @@ import { generateToken } from '@core/auth/auth.service';
 import ERRORS, { throwGraphQLError } from '@core/errors';
 import { AuthenticationToken } from '@core/auth/auth.type';
 
-const CreateUserInput = inputObjectType({
+export const CreateUserInput = inputObjectType({
   name: 'CreateUserInput',
   definition(t) {
     t.nonNull.string('name');
@@ -19,7 +19,7 @@ const CreateUserMutation = mutationField('CreateUser', {
   async resolve(_source, { input: { email, name, password } }, ctx) {
     const emailExists = await ctx.db.user.findOne({ email });
     if (emailExists) {
-      return throwGraphQLError(ERRORS.EMAIL_ALREADY_EXISTS);
+      return throwGraphQLError(ERRORS.EMAIL_ALREADY_REGISTERED);
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
@@ -29,7 +29,7 @@ const CreateUserMutation = mutationField('CreateUser', {
       passwordHash,
     });
 
-    await ctx.db.user.create(user);
+    await ctx.db.user.save(user);
 
     return { token: generateToken(user.id) };
   },

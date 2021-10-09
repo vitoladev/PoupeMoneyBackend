@@ -2,7 +2,7 @@ import mercurius from 'mercurius';
 import ErrorWithProps = mercurius.ErrorWithProps;
 
 enum ERRORS {
-  EMAIL_ALREADY_EXISTS = 'EMAIL_ALREADY_EXISTS',
+  EMAIL_ALREADY_REGISTERED = 'EMAIL_ALREADY_REGISTERED',
   INVALID_EMAIL_OR_PASSWORD = 'INVALID_EMAIL_OR_PASSWORD',
 }
 

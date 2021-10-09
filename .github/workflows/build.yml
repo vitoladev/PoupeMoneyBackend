@@ -6,6 +6,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      JWT_SECRET: 'supersecret'
+      JWT_EXPIRE: '10m'
     steps:
       - uses: actions/checkout@v2
 

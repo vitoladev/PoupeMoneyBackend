@@ -9,6 +9,7 @@ export default {
     '^@graphql(.*)$': '<rootDir>/src/graphql$1',
     '^@modules(.*)$': '<rootDir>/src/modules$1',
   },
+  setupFiles: ['dotenv/config'],
   testMatch: ['**/__tests__/**/?(*.)+(spec|test).+(ts)'],
   testPathIgnorePatterns: ['/node_modules/', '/coverage/', '/build/'],
   transform: {

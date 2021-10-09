@@ -1,7 +1,7 @@
 import 'fastify';
 
 interface IProcessEnv {
-  NODE_ENV: 'development' | 'production';
+  NODE_ENV: 'development' | 'production' | 'test';
   JWT_SECRET: string;
   JWT_EXPIRE: string;
 }

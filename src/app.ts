@@ -5,7 +5,6 @@ import AltairFastify from 'altair-fastify-plugin';
 import mercurius from 'mercurius';
 import schema from './graphql';
 import buildContext from './graphql/context';
-import databasePlugin from './plugins/database';
 
 const envSchema = {
   type: 'object',
@@ -20,10 +19,9 @@ const envSchema = {
   },
 };
 
-const app = fastify({ logger: true });
+const app = fastify();
 
 app.register(fastifyEnv, { schema: envSchema, dotenv: true });
-app.register(databasePlugin);
 
 app.register(mercurius, {
   schema,

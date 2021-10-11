@@ -4,3 +4,4 @@ tsconfig.tsbuildinfo
 .idea
 .env
 /src/graphql/generated
+coverage

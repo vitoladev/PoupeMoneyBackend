@@ -1,7 +1,6 @@
 import faker from 'faker';
-import { getRepository } from 'typeorm';
 import bcrypt from 'bcryptjs';
-import UserEntity from '../../src/modules/user/user.entity';
+import { prisma } from '../../src/graphql/context';
 
 export const userFactory = () => ({
   name: faker.name.firstName(),
@@ -13,7 +12,12 @@ export const createUserFixture = async (
   { name, email, password } = userFactory(),
 ) => {
   const passwordHash = await bcrypt.hash(password, 12);
-  const user = getRepository(UserEntity).create({ name, email, passwordHash });
 
-  await getRepository(UserEntity).save(user);
+  return await prisma.user.create({
+    data: {
+      name,
+      email,
+      passwordHash,
+    },
+  });
 };

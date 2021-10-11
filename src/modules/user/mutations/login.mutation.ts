@@ -1,10 +1,10 @@
-import { inputObjectType, mutationField, nonNull } from 'nexus';
+import { arg, inputObjectType, mutationField, nonNull } from 'nexus';
 import { generateToken } from '@core/auth/auth.service';
 import bcrypt from 'bcryptjs';
 import { AuthenticationToken } from '@core/auth/auth.type';
 import ERRORS, { throwGraphQLError } from '@core/errors';
 
-const LoginInput = inputObjectType({
+export const LoginInput = inputObjectType({
   name: 'LoginInput',
   definition(t) {
     t.nonNull.email('email');
@@ -15,10 +15,10 @@ const LoginInput = inputObjectType({
 const LoginMutation = mutationField('Login', {
   type: AuthenticationToken,
   args: {
-    input: nonNull(LoginInput),
+    input: nonNull(arg({ type: 'LoginInput' })),
   },
   async resolve(_source, { input: { email, password } }, ctx) {
-    const user = await ctx.db.user.findOne({ email });
+    const user = await ctx.prisma.user.findUnique({ where: { email } });
     if (!user) {
       return throwGraphQLError(ERRORS.INVALID_EMAIL_OR_PASSWORD);
     }

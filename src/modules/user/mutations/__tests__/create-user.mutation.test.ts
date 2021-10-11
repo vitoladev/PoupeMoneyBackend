@@ -6,14 +6,9 @@ import { testMutation } from '../../../../../__tests__/client';
 import gql from 'graphql-tag';
 import ERRORS from '../../../../core/errors';
 import { NexusGenInputs } from '../../../../graphql/generated/typings';
-import {
-  closeDbConnection,
-  createTestDbConnection,
-} from '../../../../../__tests__/database';
+import { prisma } from '../../../../graphql/context';
 
-beforeAll(async () => createTestDbConnection());
-
-afterAll(async () => closeDbConnection());
+afterAll(async () => await prisma.$disconnect());
 
 const CREATE_USER_MUTATION = gql`
   mutation CreateUserTest($input: CreateUserInput!) {

@@ -1,4 +1,4 @@
-import { inputObjectType, mutationField, nonNull } from 'nexus';
+import { arg, inputObjectType, mutationField, nonNull } from 'nexus';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '@core/auth/auth.service';
 import ERRORS, { throwGraphQLError } from '@core/errors';
@@ -15,22 +15,21 @@ export const CreateUserInput = inputObjectType({
 
 const CreateUserMutation = mutationField('CreateUser', {
   type: AuthenticationToken,
-  args: { input: nonNull(CreateUserInput) },
+  args: { input: nonNull(arg({ type: 'CreateUserInput' })) },
   async resolve(_source, { input: { email, name, password } }, ctx) {
-    const emailExists = await ctx.db.user.findOne({ email });
+    const emailExists = await ctx.prisma.user.findUnique({ where: { email } });
     if (emailExists) {
       return throwGraphQLError(ERRORS.EMAIL_ALREADY_REGISTERED);
     }
 
     const passwordHash = await bcrypt.hash(password, 12);
-    const user = ctx.db.user.create({
-      name,
-      email,
-      passwordHash,
+    const user = await ctx.prisma.user.create({
+      data: {
+        name,
+        email,
+        passwordHash,
+      },
     });
-
-    await ctx.db.user.save(user);
-
     return { token: generateToken(user.id) };
   },
 });

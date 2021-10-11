@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import UserEntity from '@modules/user/user.entity';
-import { getRepository } from 'typeorm';
+import { User } from '@prisma/client';
+import { prisma } from '@graphql/context';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRE = process.env.JWT_EXPIRE;
@@ -21,10 +21,16 @@ const verifyToken = (authToken: string): Promise<string> => {
   });
 };
 
-export const getUserFromAuthToken = async (token: string) => {
+export const getUserFromAuthToken = async (
+  token: string,
+): Promise<Maybe<User>> => {
   try {
     const userID = await verifyToken(token);
-    return await getRepository(UserEntity).findOne(userID);
+    return await prisma.user.findUnique({
+      where: {
+        id: userID,
+      },
+    });
   } catch (e) {
     return null;
   }

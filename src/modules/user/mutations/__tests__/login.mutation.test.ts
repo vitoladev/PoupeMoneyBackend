@@ -6,14 +6,9 @@ import {
 } from '../../../../../__tests__/factories/user.factory';
 import { testMutation } from '../../../../../__tests__/client';
 import ERRORS from '../../../../core/errors';
-import {
-  closeDbConnection,
-  createTestDbConnection,
-} from '../../../../../__tests__/database';
+import { prisma } from '../../../../graphql/context';
 
-beforeEach(async () => await createTestDbConnection());
-
-afterEach(async () => await closeDbConnection());
+afterAll(async () => await prisma.$disconnect());
 
 const LOGIN_MUTATION = gql`
   mutation LoginTest($input: LoginInput!) {

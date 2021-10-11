@@ -16,7 +16,7 @@
     "lint": "eslint --ext .ts src",
     "lint:fix": "yarn lint --fix",
     "test": "NODE_ENV=test yarn migrate:init && jest --detectOpenHandles",
-    "test:coverage": "NODE_ENV=test jest --coverage",
+    "test:coverage": "yarn test --coverage",
     "migrate:init": "npx prisma migrate dev --name init"
   },
   "_moduleAliases": {

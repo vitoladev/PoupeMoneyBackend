@@ -34,7 +34,14 @@ jobs:
 
       - name: build with typescript
         run: yarn build
-      - name: run tests with jest
-        run: yarn test
-      - name: eslint
+
+      - name: run lint
         run: yarn lint
+
+      - name: run tests with jest
+        run: yarn test:coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

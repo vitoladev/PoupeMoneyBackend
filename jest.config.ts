@@ -6,7 +6,7 @@ export default {
   roots: ['<rootDir>'],
   moduleNameMapper: {
     '^@core(.*)$': '<rootDir>/src/core$1',
-    '^@graphql(.*)$': '<rootDir>/src/graphql$1',
+    '^@gql(.*)$': '<rootDir>/src/graphql$1',
     '^@modules(.*)$': '<rootDir>/src/modules$1',
   },
   setupFiles: ['dotenv/config'],

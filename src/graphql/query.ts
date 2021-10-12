@@ -1,12 +1,5 @@
-import { queryType, stringArg } from 'nexus';
+import UserQueries from '@modules/user/queries';
 
-const Query = queryType({
-  definition(t) {
-    t.string('hello', {
-      args: { name: stringArg() },
-      resolve: (parent, { name }) => `Hello ${name || 'World'}!`,
-    });
-  },
-});
+const Query = [UserQueries];
 
 export default Query;

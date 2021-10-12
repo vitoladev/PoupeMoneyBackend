@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { User } from '@prisma/client';
-import { prisma } from '@graphql/context';
+import { prisma } from '@gql/context';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRE = process.env.JWT_EXPIRE;
@@ -23,12 +23,17 @@ const verifyToken = (authToken: string): Promise<string> => {
 
 export const getUserFromAuthToken = async (
   token: string,
-): Promise<Maybe<User>> => {
+): Promise<Maybe<Omit<User, 'passwordHash'>>> => {
   try {
     const userID = await verifyToken(token);
     return await prisma.user.findUnique({
       where: {
         id: userID,
+      },
+      select: {
+        id: true,
+        email: true,
+        name: true,
       },
     });
   } catch (e) {

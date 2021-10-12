@@ -2,7 +2,12 @@ import { createMercuriusTestClient } from 'mercurius-integration-testing';
 import app from '../src/app';
 import { DocumentNode } from 'graphql';
 
-export const testClient = () => createMercuriusTestClient(app);
+export const testClient = (token = '') =>
+  createMercuriusTestClient(app, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
 
 export const testQuery = <
   TData extends Record<string, unknown>,
@@ -10,7 +15,8 @@ export const testQuery = <
 >(
   query: DocumentNode,
   variables: TVariables,
-) => testClient().query<TData, TVariables>(query, { variables });
+  authToken = '',
+) => testClient(authToken).query<TData, TVariables>(query, { variables });
 
 export const testMutation = <
   TData extends Record<string, unknown>,
@@ -18,4 +24,5 @@ export const testMutation = <
 >(
   mutation: DocumentNode,
   variables: TVariables,
-) => testClient().mutate<TData, TVariables>(mutation, { variables });
+  authToken = '',
+) => testClient(authToken).mutate<TData, TVariables>(mutation, { variables });

@@ -19,5 +19,10 @@ export const createUserFixture = async (
       email,
       passwordHash,
     },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
   });
 };

@@ -19,7 +19,7 @@
     "paths": {
       "@modules/*": ["src/modules/*"],
       "@core/*": ["src/core/*"],
-      "@graphql/*": ["src/graphql/*"]
+      "@gql/*": ["src/graphql/*"]
     },
     /* Experimental Options */
     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
